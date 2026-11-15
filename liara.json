@@ -1,0 +1,5 @@
+{
+  "platform": "next",
+  "app": "siamand-nexus-erp",
+  "port": 3000
+}
