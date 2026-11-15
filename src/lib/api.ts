@@ -27,6 +27,9 @@ export async function requireUser(): Promise<SessionUser | null> {
 export const unauthorized = () => fail("Please sign in to continue.", 401);
 export const forbidden = () =>
   fail("You don't have permission to perform this action.", 403);
+// Public demo (DEMO_MODE=1): block the actions that would lock other visitors out.
+export const DEMO = process.env.DEMO_MODE === "1";
+export const demoLocked = () => fail("This is disabled in the public demo.", 403);
 export const notFound = () => fail("Resource not found.", 404);
 
 export async function logActivity(

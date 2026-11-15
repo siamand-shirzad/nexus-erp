@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
-import { ok, fail, requireUser, unauthorized } from "@/lib/api";
+import { ok, fail, requireUser, unauthorized, DEMO, demoLocked } from "@/lib/api";
 
 export async function GET() {
   const session = await requireUser();
@@ -33,6 +33,7 @@ export async function PATCH(req: Request) {
   const session = await requireUser();
   if (!session) return unauthorized();
   const body = await req.json().catch(() => ({}));
+  if (DEMO && typeof body.password === "string") return demoLocked();
   const patch: Record<string, unknown> = {};
   if (typeof body.name === "string" && body.name.trim()) patch.name = body.name.trim();
   if (typeof body.title === "string") patch.title = body.title.trim() || null;

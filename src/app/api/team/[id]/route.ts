@@ -9,7 +9,9 @@ import {
   unauthorized,
   forbidden,
   notFound,
-  logActivity,
+  logActivity
+  DEMO,
+  demoLocked,
 } from "@/lib/api";
 import { hashPassword } from "@/lib/auth";
 import { listTeamMembers } from "@/lib/queries";
@@ -18,6 +20,7 @@ export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }>
   const session = await requireUser();
   if (!session) return unauthorized();
   if (session.role !== "admin") return forbidden();
+  if (DEMO) return demoLocked();
   const { id } = await ctx.params;
   const body = await readJson(req);
 
@@ -79,6 +82,7 @@ export async function DELETE(_req: Request, ctx: { params: Promise<{ id: string 
   const session = await requireUser();
   if (!session) return unauthorized();
   if (session.role !== "admin") return forbidden();
+  if (DEMO) return demoLocked();
   const { id } = await ctx.params;
   if (session.sub === id) return fail("You can't delete your own account.", 422);
 

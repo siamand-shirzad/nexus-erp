@@ -148,6 +148,7 @@ export const validateBackupAction = async (form: FormData) =>
   }, true);
 export const restoreBackupAction = async (form: FormData) =>
   run(async () => {
+    if (process.env.DEMO_MODE === "1") throw new AccError("Restore is disabled in the public demo.");
     const f = await fileOf(form);
     return backup.restoreBackup(parseBackup(f.bytes));
   });

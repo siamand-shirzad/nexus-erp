@@ -7,7 +7,9 @@ import {
   requireUser,
   unauthorized,
   forbidden,
-  logActivity,
+  logActivity
+  DEMO,
+  demoLocked,
 } from "@/lib/api";
 import { hashPassword } from "@/lib/auth";
 import { listTeamMembers } from "@/lib/queries";
@@ -24,6 +26,7 @@ export async function POST(req: Request) {
   const session = await requireUser();
   if (!session) return unauthorized();
   if (session.role !== "admin") return forbidden();
+  if (DEMO) return demoLocked();
   const body = await readJson(req);
 
   const name = String(body.name ?? "").trim();
