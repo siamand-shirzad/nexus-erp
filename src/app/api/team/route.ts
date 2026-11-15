@@ -7,7 +7,7 @@ import {
   requireUser,
   unauthorized,
   forbidden,
-  logActivity
+  logActivity,
   DEMO,
   demoLocked,
 } from "@/lib/api";

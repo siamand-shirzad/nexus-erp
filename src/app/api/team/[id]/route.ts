@@ -9,7 +9,7 @@ import {
   unauthorized,
   forbidden,
   notFound,
-  logActivity
+  logActivity,
   DEMO,
   demoLocked,
 } from "@/lib/api";
